@@ -46,6 +46,22 @@ class TestGemMirror < Minitest::Test
     end
   end
 
+  def test_update_gems_with_limit
+    with_server do
+      ENV["RUBYGEMS_MIRROR_LIMIT"] = "2"
+      mirror = Gem::Mirror.new(*opts)
+
+      mirror.update_gems
+
+      mirror_gems = Dir[mirror_path + '/gems/*'].map { |f| File.basename(f) }
+
+      assert_equal 2, mirror.gems.size
+      assert_equal mirror.gems.sort, mirror_gems.sort
+    ensure
+      ENV.delete("RUBYGEMS_MIRROR_LIMIT")
+    end
+  end
+
   def test_delete_gems
     with_server do
       mirror = Gem::Mirror.new(*opts)

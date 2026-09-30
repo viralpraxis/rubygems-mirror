@@ -53,6 +53,11 @@ class Gem::Mirror
     ENV["RUBYGEMS_MIRROR_ONLY_LATEST"].to_s.upcase != "TRUE"
   end
 
+  def limit
+    value = ENV["RUBYGEMS_MIRROR_LIMIT"].to_s
+    Integer(value) unless value.empty?
+  end
+
   def gems
     gems = []
 
@@ -82,7 +87,7 @@ class Gem::Mirror
       end
     end
 
-    gems
+    limit ? gems.first(limit) : gems
   end
 
   def existing_gems

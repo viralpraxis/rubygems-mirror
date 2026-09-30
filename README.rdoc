@@ -41,6 +41,13 @@ will maintain stability in master.
 * Clone then run `rake mirror:update`
 * With the environment variable `RUBYGEMS_MIRROR_ONLY_LATEST=TRUE`,
   rubygems-mirror fetches only the latest release of each gem
+* With the environment variable `RUBYGEMS_MIRROR_LIMIT=N`, rubygems-mirror
+  mirrors at most N gems; combined with `delete: true`, gems beyond the
+  limit are removed from the mirror
+* Run `rake 'mirror:unpack[/data/rubygems]'` to extract the source of every
+  mirrored gem into `/data/rubygems/unpacked/<name>-<version>/`
+* Run `rake 'mirror:prune[/data/rubygems]'` to delete logs, binaries, JS,
+  JSON/CSV/HTML/Markdown files, images and audio from the unpacked gems
 
 === Apache configuration for hashdir
 
